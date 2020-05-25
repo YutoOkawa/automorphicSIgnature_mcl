@@ -47,8 +47,8 @@ Signature aut::genSign(Fr sk, std::string msg)
     // A = (1/x+c)(K + rT + M)
     Fr::add(a, sk, c);
     Fr::div(divA, 1, a);
-    G1::mul(this->sign.A, this->param.T, r);
-    G1::add(this->sign.A, this->sign.A, this->param.K);
+    G1::mul(rT, this->param.T, r);
+    G1::add(this->sign.A, this->param.K, rT);
     G1::add(this->sign.A, this->sign.A, this->msgSpc.M);
     G1::mul(this->sign.A, this->sign.A, divA);
 
