@@ -1,5 +1,7 @@
 #include "mclutils.hpp"
 
+using namespace mcl::bn256;
+
 G1 genG1Element() {
     G1 P;
     std::random_device rd;

@@ -5,13 +5,11 @@
 #include <random>
 #include <iostream>
 
-using namespace mcl::bn256;
-
-G1 genG1Element();
-G2 genG2Element();
-void debugG1(std::string str, G1 g);
-void debugG2(std::string str, G2 h);
-void debugFr(std::string str, Fr fr);
-void debugGT(std::string str, Fp12 gt);
+mcl::bn256::G1 genG1Element();
+mcl::bn256::G2 genG2Element();
+void debugG1(std::string str, mcl::bn256::G1 g);
+void debugG2(std::string str, mcl::bn256::G2 h);
+void debugFr(std::string str, mcl::bn256::Fr fr);
+void debugGT(std::string str, mcl::bn256::Fp12 gt);
 
 #endif
