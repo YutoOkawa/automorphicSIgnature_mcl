@@ -1,5 +1,7 @@
 #include "aut.hpp"
 
+using namespace mcl::bn256;
+
 int main() {
     aut aut;
     Fr sk;

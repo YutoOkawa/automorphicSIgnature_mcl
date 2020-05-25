@@ -1,5 +1,7 @@
 #include "aut.hpp"
 
+using namespace mcl::bn256;
+
 void aut::init()
 {
     printf("\n-----Pairing Library mcl-bn256 initialize-----\n");

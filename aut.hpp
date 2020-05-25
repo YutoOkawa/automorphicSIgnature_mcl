@@ -3,26 +3,24 @@
 
 #include "mclutils.hpp"
 
-using namespace mcl::bn256;
-
 struct Param {
-    G1 G, F, K, T;
-    G2 H;
+    mcl::bn256::G1 G, F, K, T;
+    mcl::bn256::G2 H;
 };
 
 struct VerKey {
-    G1 X;
-    G2 Y;
+    mcl::bn256::G1 X;
+    mcl::bn256::G2 Y;
 };
 
 struct MsgSpace {
-    G1 M;
-    G2 N;
+    mcl::bn256::G1 M;
+    mcl::bn256::G2 N;
 };
 
 struct Signature {
-    G1 A, C, R;
-    G2 D, S;
+    mcl::bn256::G1 A, C, R;
+    mcl::bn256::G2 D, S;
 };
 
 class aut
@@ -43,8 +41,8 @@ class aut
     public:
         void init();
         void setup();
-        Fr keyGen();
-        Signature genSign(Fr sk, std::string msg);
+        mcl::bn256::Fr keyGen();
+        Signature genSign(mcl::bn256::Fr sk, std::string msg);
         bool verify(VerKey verkey, std::string msg, Signature sign);
         void createMsg(std::string msg);
         Param getParam();
@@ -56,6 +54,6 @@ class aut
 void debugParam(Param param);
 void debugVerKey(VerKey verkey);
 void debugSign(Signature sign);
-bool checkPairing(Fp12 gt1, Fp12 gt2, std::string str);
+bool checkPairing(mcl::bn256::Fp12 gt1, mcl::bn256::Fp12 gt2, std::string str);
 
 #endif
