@@ -2,7 +2,7 @@
 Automorphic Signatureのアルゴリズムを検証するプログラム
 
 # 使用ライブラリ
-[mcl]{https://github.com/herumi/mcl} - C++ pairing library
+[mcl](https://github.com/herumi/mcl) - C++ pairing library
 
 # Usage
 ```
