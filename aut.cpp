@@ -34,7 +34,8 @@ Fr aut::keyGen()
 Signature aut::genSign(Fr sk, std::string msg)
 {
     printf("\n-----AutomorphicSingature Signing-----\n");
-    Fr a, c, r;
+    Fr a, divA, c, r;
+    G1 rT;
     // Message = (M,N)
     this->createMsg(msg);
 
@@ -43,15 +44,15 @@ Signature aut::genSign(Fr sk, std::string msg)
     r.setByCSPRNG();
 
     // Sign = A, C, D, R, S
-    // A = (K * T^r * M)^(1/x+c)
+    // A = (1/x+c)(K + rT + M)
     Fr::add(a, sk, c);
-    Fr::div(a, 1, a);
+    Fr::div(divA, 1, a);
     G1::mul(this->sign.A, this->param.T, r);
-    G1::add(this->sign.A, this->sign.A, this->param.T);
+    G1::add(this->sign.A, this->sign.A, this->param.K);
     G1::add(this->sign.A, this->sign.A, this->msgSpc.M);
-    G1::mul(this->sign.A, this->sign.A, a);
+    G1::mul(this->sign.A, this->sign.A, divA);
 
-    // C = F^c, D = H^c, R = G^r, S = H^r
+    // C = cF, D = cH, R = rG, S = rH
     G1::mul(this->sign.C, this->param.F, c);
     G2::mul(this->sign.D, this->param.H, c);
     G1::mul(this->sign.R, this->param.G, r);
@@ -83,13 +84,14 @@ bool aut::verify(VerKey verkey, std::string msg, Signature sign)
         return false;
     }
 
+    // e(A,Y+D) = e(K+M,H)e(T,S)
     G2::add(YD, verkey.Y, sign.D);
     pairing(pairAYD, sign.A, YD);
     G1::add(KM, this->param.K, this->msgSpc.M);
     pairing(pairKMH, KM, this->param.H);
     pairing(pairTS, this->param.T, sign.S);
-    Fp12::mul(pairKMHTS, pairKMH, pairTS);
-    if (!checkPairing(pairAYD, pairKMHTS, "e(A,Y*D) == e(K*M,H)e(T,S)")) {
+    GT::mul(pairKMHTS, pairKMH, pairTS);
+    if (!checkPairing(pairAYD, pairKMHTS, "e(A,Y+D) == e(K+M,H)e(T,S)")) {
         return false;
     }
 
